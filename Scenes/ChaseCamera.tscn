@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/FollowCam.gd" type="Script" id=1]
+
+[node name="ChaseCamera" type="Camera"]
+transform = Transform( 0.611555, -0.234835, 0.755548, 0, 0.954937, 0.296808, -0.791202, -0.181514, 0.583996, 3.88602, 23.0892, 37.8374 )
+far = 715.3
+script = ExtResource( 1 )
+follow_this_path = NodePath("../cars/RigidBody2")
+target_distance = 22.046
+target_height = 7.599

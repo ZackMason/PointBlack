@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Materials/ground.material" type="Material" id=1]
+[ext_resource path="res://Textures/road.png" type="Texture" id=2]
+
+[sub_resource type="Curve3D" id=12]
+_data = {
+"points": PoolVector3Array( -135.2, 0, 179.8, 135.2, 0, -179.8, 799.235, 39.8621, -21.8113, -128.765, 0, 155.464, 128.765, 0, -155.464, 980.035, 69.8621, -442.011, 106, 29, 128, -106, -29, -128, 983.035, 28.8621, -759.011, 315, 79, 2, -315, -79, -2, 602.035, 32.8621, -869.011, 95, 1, -25, -95, -1, 25, 95.0353, 40.8621, -798.011, 64.6451, 0, -89.897, -64.6451, 0, 89.897, -527.965, 30.8621, -856.011, -81, -19, -88, 81, 19, 88, -440.965, 55.8621, -57.0114, -115, -12, 28, 115, 12, -28, -22.9647, 35.8621, 12.9886, -74.4, -7.9, -55.2, 74.4, 7.9, 55.2, 358.035, 13.8621, 154.989, -59.7, 0, 62.2, 59.7, 0, -62.2, 615.3, 20.9, 103 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="Shader" id=13]
+code = "shader_type spatial;
+
+uniform sampler2D road_texture;
+
+void fragment()
+{
+	vec2 uv = vec2(UV.x, UV.y);
+	vec4 color = texture(road_texture, uv);
+	ALBEDO = color.rgb;
+	METALLIC = 0.0f;
+	ROUGHNESS = 0.8f;
+}"
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = SubResource( 13 )
+shader_param/road_texture = ExtResource( 2 )
+
+[node name="Path" type="Path" groups=[
+"path",
+]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 37, 0, 712 )
+curve = SubResource( 12 )
+
+[node name="DragMeshesToStopRebuildingTrack" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0, -712 )
+
+[node name="Road" type="CSGPolygon" parent="."]
+use_collision = true
+invert_faces = true
+polygon = PoolVector2Array( -32, 0, -32, 1, 32, 1, 32, 0 )
+mode = 2
+path_node = NodePath("..")
+path_interval = 8.0
+path_rotation = 2
+path_local = false
+path_continuous_u = false
+path_joined = true
+material = SubResource( 14 )
+
+[node name="ground" type="CSGPolygon" parent="."]
+use_collision = true
+invert_faces = true
+polygon = PoolVector2Array( -42, -0.1, 42, -0.1, 64, -30, 64, -30, -64, -30, -64, -30 )
+mode = 2
+path_node = NodePath("..")
+path_interval = 16.0
+path_rotation = 2
+path_local = false
+path_continuous_u = false
+path_joined = true
+material = ExtResource( 1 )

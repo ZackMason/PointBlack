@@ -1,0 +1,278 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Textures/road.png" type="Texture" id=1]
+[ext_resource path="res://Textures/grass.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/ChaseCamera.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/PlayerAI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://terrain/data.hterrain" type="Resource" id=5]
+[ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=6]
+[ext_resource path="res://Materials/ground.material" type="Material" id=7]
+[ext_resource path="res://Models/pillar.glb" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/hovercar_v2.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/ComputerAI.tscn" type="PackedScene" id=10]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 10.2179, 7.73985, 10.905 )
+
+[sub_resource type="PlaneMesh" id=2]
+
+[sub_resource type="CapsuleShape" id=3]
+radius = 17.0215
+height = 49.0331
+
+[sub_resource type="CapsuleMesh" id=4]
+
+[sub_resource type="BoxShape" id=5]
+
+[sub_resource type="CubeMesh" id=6]
+
+[sub_resource type="Curve3D" id=12]
+_data = {
+"points": PoolVector3Array( -135.2, 0, 179.8, 135.2, 0, -179.8, 799.235, 39.8621, -21.8113, -128.765, 0, 155.464, 128.765, 0, -155.464, 980.035, 69.8621, -442.011, 106, 29, 128, -106, -29, -128, 983.035, 28.8621, -759.011, 315, 79, 2, -315, -79, -2, 602.035, 32.8621, -869.011, 95, 1, -25, -95, -1, 25, 95.0353, 40.8621, -798.011, 64.6451, 0, -89.897, -64.6451, 0, 89.897, -527.965, 30.8621, -856.011, -81, -19, -88, 81, 19, 88, -440.965, 55.8621, -57.0114, -115, -12, 28, 115, 12, -28, -22.9647, 35.8621, 12.9886, -74.4, -7.9, -55.2, 74.4, 7.9, 55.2, 358.035, 13.8621, 154.989, -59.7, 0, 62.2, 59.7, 0, -62.2, 615.3, 20.9, 103 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="Shader" id=13]
+code = "shader_type spatial;
+
+uniform sampler2D road_texture;
+
+void fragment()
+{
+	vec2 uv = vec2(UV.x, UV.y);
+	vec4 color = texture(road_texture, uv);
+	ALBEDO = color.rgb;
+	METALLIC = 0.0f;
+	ROUGHNESS = 0.8f;
+}"
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = SubResource( 13 )
+shader_param/road_texture = ExtResource( 1 )
+
+[sub_resource type="Environment" id=10]
+ssao_enabled = true
+glow_enabled = true
+
+[sub_resource type="CapsuleShape" id=11]
+height = 12.0
+
+[node name="World" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0352936, 0.137907, 0.011364 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.692802, -0.579987, 0.428533, -0.130238, 0.483849, 0.865407, -0.709269, -0.655367, 0.259675, -5.79169, 55.1564, 42.4766 )
+shadow_enabled = true
+
+[node name="cars" type="Spatial" parent="."]
+
+[node name="RigidBody2" parent="cars" groups=[
+"damagable",
+] instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 45.0353, 29.8621, 63.9886 )
+PlayerSpeed = 24500.0
+PlayerRotationSpeed = 13000.0
+
+[node name="AI" parent="cars/RigidBody2" instance=ExtResource( 4 )]
+
+[node name="RigidBody3" parent="cars" groups=[
+"damagable",
+] instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -82.9647, 29.8621, -47.0114 )
+PlayerSpeed = 24500.0
+PlayerRotationSpeed = 13000.0
+
+[node name="AI" parent="cars/RigidBody3" instance=ExtResource( 10 )]
+
+[node name="RigidBody4" parent="cars" groups=[
+"damagable",
+] instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -338.965, 34.8621, 521.989 )
+PlayerSpeed = 24500.0
+PlayerRotationSpeed = 13000.0
+
+[node name="AI" parent="cars/RigidBody4" instance=ExtResource( 10 )]
+
+[node name="RigidBody5" parent="cars" groups=[
+"damagable",
+] instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 262.035, 34.8621, 341.989 )
+PlayerSpeed = 24500.0
+PlayerRotationSpeed = 13000.0
+
+[node name="AI" parent="cars/RigidBody5" instance=ExtResource( 10 )]
+
+[node name="RigidBody6" parent="cars" groups=[
+"damagable",
+] instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 697.035, 34.8621, 175.989 )
+PlayerSpeed = 24500.0
+PlayerRotationSpeed = 13000.0
+
+[node name="AI" parent="cars/RigidBody6" instance=ExtResource( 10 )]
+
+[node name="RigidBody7" parent="cars" groups=[
+"damagable",
+] instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 676.035, 34.8621, 502.989 )
+PlayerSpeed = 24500.0
+PlayerRotationSpeed = 13000.0
+
+[node name="AI" parent="cars/RigidBody7" instance=ExtResource( 10 )]
+
+[node name="RigidBody8" parent="cars" groups=[
+"damagable",
+] instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 170.035, 34.8621, 108.989 )
+PlayerSpeed = 24500.0
+PlayerRotationSpeed = 13000.0
+
+[node name="AI" parent="cars/RigidBody8" instance=ExtResource( 10 )]
+
+[node name="RigidBody9" parent="cars" groups=[
+"damagable",
+] instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 649.035, 34.8621, -149.011 )
+PlayerSpeed = 24500.0
+PlayerRotationSpeed = 13000.0
+
+[node name="AI" parent="cars/RigidBody9" instance=ExtResource( 10 )]
+
+[node name="RigidBody10" parent="cars" groups=[
+"damagable",
+] instance=ExtResource( 9 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 467.035, 34.8621, 186.989 )
+PlayerSpeed = 24500.0
+PlayerRotationSpeed = 13000.0
+
+[node name="AI" parent="cars/RigidBody10" instance=ExtResource( 10 )]
+
+[node name="ChaseCamera" parent="." instance=ExtResource( 3 )]
+target_distance = 50.0
+target_height = 16.492
+
+[node name="StaticBody" type="StaticBody" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 2147483648
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 102.52, 0, 0, 0, 1, 0, 0, 0, 102.52, 46.6355, -6.28732, -29.0433 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
+transform = Transform( 1088.85, 0, 0, 0, 1, 0, 0, 0, 1088.85, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 7 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 106.327, -13.2697, -17.4346 )
+shape = SubResource( 3 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="StaticBody/CollisionShape2"]
+transform = Transform( 18.2507, 0, 0, 0, 18.05, 0, 0, 0, 25.1247, 0, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="CollisionShape3" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 102.52, 0, 0, 0, 0.982623, -19.0294, 0, 0.185615, 100.739, 54.1653, 4.51382, -162.521 )
+shape = SubResource( 5 )
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody/CollisionShape3"]
+mesh = SubResource( 6 )
+material/0 = null
+
+[node name="track" type="Spatial" parent="."]
+
+[node name="Path" type="Path" parent="track"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 37, 0, 712 )
+curve = SubResource( 12 )
+
+[node name="DragMeshesToStopRebuildingTrack" type="Spatial" parent="track/Path"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -37, 0, -712 )
+
+[node name="Road" type="CSGPolygon" parent="track/Path"]
+use_collision = true
+invert_faces = true
+polygon = PoolVector2Array( -32, 0, -32, 1, 32, 1, 32, 0 )
+mode = 2
+path_node = NodePath("..")
+path_interval = 8.0
+path_rotation = 2
+path_local = false
+path_continuous_u = false
+path_joined = true
+material = SubResource( 14 )
+
+[node name="ground" type="CSGPolygon" parent="track/Path"]
+use_collision = true
+invert_faces = true
+polygon = PoolVector2Array( -42, -0.1, 42, -0.1, 64, -30, 64, -30, -64, -30, -64, -30 )
+mode = 2
+path_node = NodePath("..")
+path_interval = 16.0
+path_rotation = 2
+path_local = false
+path_continuous_u = false
+path_joined = true
+material = ExtResource( 7 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 10 )
+
+[node name="HTerrain" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1000, -7.42, -1000 )
+script = ExtResource( 6 )
+collision_enabled = true
+ambient_wind = 0.0
+lod_scale = 2.0
+custom_globalmap_shader = null
+map_scale = Vector3( 5, 1, 5 )
+_terrain_data = ExtResource( 5 )
+chunk_size = 32
+shader_type = "Classic4Lite"
+custom_shader = null
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = false
+ground/albedo_bump_0 = ExtResource( 2 )
+ground/normal_roughness_0 = null
+ground/albedo_bump_1 = null
+ground/normal_roughness_1 = null
+ground/albedo_bump_2 = null
+ground/normal_roughness_2 = null
+ground/albedo_bump_3 = null
+ground/normal_roughness_3 = null
+
+[node name="SpawnPoint" type="Spatial" parent="." groups=[
+"spawn",
+]]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16.7858, 72.3265, -65.2343 )
+
+[node name="SpawnPoint2" type="Spatial" parent="." groups=[
+"spawn",
+]]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 383.786, 62.3265, 505.766 )
+
+[node name="SpawnPoint3" type="Spatial" parent="." groups=[
+"spawn",
+]]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -321.214, 78.3265, 195.766 )
+
+[node name="SpawnPoint4" type="Spatial" parent="." groups=[
+"spawn",
+]]
+transform = Transform( -0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, -0.965926, 920.786, 97.3265, 338.766 )
+
+[node name="Missiles" type="Spatial" parent="." groups=[
+"missiles",
+]]
+
+[node name="pillar" parent="." instance=ExtResource( 8 )]
+transform = Transform( 5.5, 0, 0, 0, 5.5, 0, 0, 0, 5.5, -17, 9, -11 )
+
+[node name="StaticBody" type="StaticBody" parent="pillar"]
+
+[node name="CollisionShape" type="CollisionShape" parent="pillar/StaticBody"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 8.18182, 0 )
+shape = SubResource( 11 )
