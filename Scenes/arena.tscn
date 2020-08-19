@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Models/CAR.material" type="Material" id=1]
 [ext_resource path="res://Models/arena.obj" type="ArrayMesh" id=2]
@@ -22,6 +22,8 @@
 [ext_resource path="res://Materials/force_field.material" type="Material" id=20]
 [ext_resource path="res://Models/screen.obj" type="ArrayMesh" id=21]
 [ext_resource path="res://Scenes/Spatial.gd" type="Script" id=22]
+[ext_resource path="res://Scenes/screen.gd" type="Script" id=23]
+[ext_resource path="res://Textures/shield.png" type="Texture" id=24]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 692, 5, 840 )
@@ -55,7 +57,7 @@ dof_blur_far_distance = 167.29
 dof_blur_far_transition = 105.78
 glow_enabled = true
 
-[sub_resource type="Shader" id=10]
+[sub_resource type="Shader" id=9]
 code = "shader_type spatial;
 render_mode unshaded;
 
@@ -66,15 +68,15 @@ void fragment()
 	ALBEDO = texture(camera_texture, UV.yx).rgb;
 }"
 
-[sub_resource type="ViewportTexture" id=12]
+[sub_resource type="ViewportTexture" id=10]
 viewport_path = NodePath("Spatial/Viewport")
 
 [sub_resource type="ShaderMaterial" id=11]
 resource_local_to_scene = true
-shader = SubResource( 10 )
-shader_param/camera_texture = SubResource( 12 )
+shader = SubResource( 9 )
+shader_param/camera_texture = SubResource( 10 )
 
-[sub_resource type="GIProbeData" id=9]
+[sub_resource type="GIProbeData" id=12]
 bounds = AABB( -1164, -432, -742, 2328, 864, 1484 )
 cell_size = 18.1875
 to_cell_xform = Transform( 0.0549828, 0, 0, 0, 0.0549828, 0, 0, 0, 0.0549828, 64, 23.7526, 40.7973 )
@@ -148,6 +150,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -119, 45, 444 )
 transform = Transform( 0.611555, -0.234835, 0.755548, 0, 0.954937, 0.296808, -0.791202, -0.181514, 0.583997, 373, 98, 192 )
 far = 1500.0
 follow_this_path = NodePath("../Cars/RigidBody9")
+target_distance = 15.0
 
 [node name="RayCast" type="RayCast" parent="ChaseCamera"]
 enabled = true
@@ -357,6 +360,8 @@ environment = SubResource( 8 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.43765, 3.05176e-05, -4.13794 )
 mesh = ExtResource( 21 )
 material/0 = SubResource( 11 )
+script = ExtResource( 23 )
+texture = ExtResource( 24 )
 
 [node name="Missiles" type="Spatial" parent="." groups=[
 "missiles",
@@ -427,37 +432,37 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -312, 227, 0 )
 extents = Vector3( 1164, 432, 742 )
 energy = 0.5
 propagation = 0.32
-data = SubResource( 9 )
+data = SubResource( 12 )
 
-[node name="Spatial" type="Spatial" parent="."]
+[node name="ArenaCameras" type="Spatial" parent="."]
 script = ExtResource( 22 )
 cycle_time = 5.0
 
-[node name="Viewport" type="Viewport" parent="Spatial"]
-size = Vector2( 1980, 1080 )
+[node name="Viewport" type="Viewport" parent="ArenaCameras"]
+size = Vector2( 512, 512 )
 
-[node name="Camera" type="Camera" parent="Spatial/Viewport"]
+[node name="Camera" type="Camera" parent="ArenaCameras/Viewport"]
 transform = Transform( -0.85606, 0.137912, -0.498138, 0, 0.963747, 0.266818, 0.516877, 0.228412, -0.825025, -123.759, 62.9451, -212.16 )
 far = 2000.0
 
-[node name="Camera2" type="Camera" parent="Spatial/Viewport"]
+[node name="Camera2" type="Camera" parent="ArenaCameras/Viewport"]
 transform = Transform( -0.6815, -0.195262, 0.705287, 0, 0.963747, 0.266818, -0.731818, 0.181836, -0.656794, 180.661, 62.9451, -212.16 )
 current = true
 far = 2000.0
 
-[node name="Camera3" type="Camera" parent="Spatial/Viewport"]
+[node name="Camera3" type="Camera" parent="ArenaCameras/Viewport"]
 transform = Transform( 0.792726, 0.162646, -0.587479, 0, 0.963747, 0.266818, 0.609578, -0.211513, 0.763987, 86.3122, 245.902, -114.817 )
 far = 2000.0
 
-[node name="Camera4" type="Camera" parent="Spatial/Viewport"]
+[node name="Camera4" type="Camera" parent="ArenaCameras/Viewport"]
 transform = Transform( 0.498397, -0.186046, 0.846751, 0, 0.976702, 0.214599, -0.866949, -0.106955, 0.486785, -13.3889, 82.1789, 348.241 )
 far = 2000.0
 
-[node name="Timer" type="Timer" parent="Spatial"]
+[node name="Timer" type="Timer" parent="ArenaCameras"]
 autostart = true
 
-[node name="Spatial2" parent="." instance=ExtResource( 7 )]
+[node name="Turret" parent="." instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -192.502, 0, -205.872 )
 [connection signal="button_up" from="Pause/MainPause/Main/Resume" to="Pause/MainPause" method="_on_Resume_button_up"]
 [connection signal="button_up" from="Pause/MainPause/Main/Exit" to="Pause/MainPause" method="_on_Exit_button_up"]
-[connection signal="timeout" from="Spatial/Timer" to="Spatial" method="_on_Timer_timeout"]
+[connection signal="timeout" from="ArenaCameras/Timer" to="ArenaCameras" method="_on_Timer_timeout"]
