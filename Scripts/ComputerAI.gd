@@ -1,6 +1,6 @@
 extends "res://AI.gd"
 
-onready var target : Spatial = get_tree().get_nodes_in_group("player")[0]
+onready var target : Spatial = get_tree().get_nodes_in_group("entrance_target")[0]
 
 func new_target():
 	var nodes := get_tree().get_nodes_in_group("damagable")

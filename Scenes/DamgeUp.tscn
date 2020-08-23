@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Materials/hdr_particle.shader" type="Shader" id=1]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 1 )
+shader_param/particle_power = 6.0
+shader_param/circle = true
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0, 0.979275 )
+colors = PoolColorArray( 0.93457, 0.139731, 0.0401573, 1, 0.891602, 0.0870705, 0.789464, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="ParticlesMaterial" id=4]
+trail_divisor = 19
+emission_shape = 1
+emission_sphere_radius = 10.52
+direction = Vector3( 0, 0, 0 )
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 496.55
+angular_velocity_random = 0.97
+linear_accel = 6.9
+radial_accel = -100.0
+tangential_accel = 13.79
+damping = 5.17
+scale_random = 1.0
+color_ramp = SubResource( 3 )
+
+[sub_resource type="QuadMesh" id=5]
+
+[node name="DamgeUp" type="Spatial"]
+
+[node name="Particles" type="Particles" parent="."]
+material_override = SubResource( 1 )
+cast_shadow = 0
+amount = 80
+visibility_aabb = AABB( -0.001, -0.001, -0.001, 0.002, 0.002, 0.002 )
+process_material = SubResource( 4 )
+draw_pass_1 = SubResource( 5 )

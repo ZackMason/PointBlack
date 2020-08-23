@@ -1,18 +1,57 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://hovercar_v3.gd" type="Script" id=1]
 [ext_resource path="res://Models/car_body.obj" type="ArrayMesh" id=2]
 [ext_resource path="res://Models/CAR.material" type="Material" id=3]
 [ext_resource path="res://Materials/force_field.material" type="Material" id=4]
 [ext_resource path="res://Scenes/WeaponMount.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Models/Material_001.material" type="Material" id=6]
+[ext_resource path="res://Models/car_wheel.obj" type="ArrayMesh" id=7]
+[ext_resource path="res://Models/fire_cone.obj" type="ArrayMesh" id=8]
+[ext_resource path="res://Materials/fire_cone.tres" type="Material" id=9]
+[ext_resource path="res://Materials/fire_cone.shader" type="Shader" id=10]
+[ext_resource path="res://Scenes/health_bar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/DamgeUp.tscn" type="PackedScene" id=12]
 
 [sub_resource type="PhysicsMaterial" id=1]
 
 [sub_resource type="SphereShape" id=2]
 radius = 7.0
 
+[sub_resource type="OpenSimplexNoise" id=3]
+seed = 3
+octaves = 8
+period = 129.0
+persistence = 0.0
+lacunarity = 2.72
+
+[sub_resource type="NoiseTexture" id=4]
+seamless = true
+noise = SubResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 10 )
+shader_param/color_1 = Color( 0.980392, 0.027451, 0.027451, 1 )
+shader_param/color_2 = Color( 0.788235, 0.972549, 0.0352941, 1 )
+shader_param/color_3 = Color( 0.960784, 0.831373, 0.792157, 1 )
+shader_param/fall_off_power = 2.956
+shader_param/final_multi = 9.547
+shader_param/fresnel_power = 4.569
+shader_param/noise_power = 6.693
+shader_param/noise_texture = SubResource( 4 )
+
+[sub_resource type="SpatialMaterial" id=6]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_billboard_mode = 1
+
+[sub_resource type="ViewportTexture" id=7]
+viewport_path = NodePath("car_body/Viewport")
+
 [node name="RigidBody" type="RigidBody" groups=[
 "damagable",
+"hovercar",
 "shieldable",
 ]]
 collision_layer = 4
@@ -28,6 +67,7 @@ radial_segments = 16
 rings = 12
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
+visible = false
 shape = SubResource( 2 )
 
 [node name="car_body" type="MeshInstance" parent="."]
@@ -51,8 +91,81 @@ autostart = true
 [node name="RightFirePoint" parent="car_body" instance=ExtResource( 5 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 2.901, 2.51, -6.113 )
 
+[node name="car_wheel" type="MeshInstance" parent="car_body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 6 )
+mesh = ExtResource( 7 )
+material/0 = ExtResource( 6 )
+
+[node name="fire_cone" type="MeshInstance" parent="car_body/car_wheel"]
+transform = Transform( 1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, -0.1, 0 )
+mesh = ExtResource( 8 )
+material/0 = ExtResource( 9 )
+
+[node name="car_wheel2" type="MeshInstance" parent="car_body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 6 )
+mesh = ExtResource( 7 )
+material/0 = ExtResource( 6 )
+
+[node name="fire_cone2" type="MeshInstance" parent="car_body/car_wheel2"]
+transform = Transform( 1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, -0.1, -4.76837e-07 )
+mesh = ExtResource( 8 )
+material/0 = ExtResource( 9 )
+
+[node name="car_wheel3" type="MeshInstance" parent="car_body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -6 )
+mesh = ExtResource( 7 )
+material/0 = ExtResource( 6 )
+
+[node name="fire_cone3" type="MeshInstance" parent="car_body/car_wheel3"]
+transform = Transform( 1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, -0.1, 0 )
+mesh = ExtResource( 8 )
+material/0 = ExtResource( 9 )
+
+[node name="car_wheel4" type="MeshInstance" parent="car_body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -6 )
+mesh = ExtResource( 7 )
+material/0 = ExtResource( 6 )
+
+[node name="fire_cone4" type="MeshInstance" parent="car_body/car_wheel4"]
+transform = Transform( 1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, -0.1, 0 )
+mesh = ExtResource( 8 )
+material/0 = ExtResource( 9 )
+
+[node name="flames" type="Spatial" parent="car_body"]
+transform = Transform( 0.72, 0, 0, 0, -0.18635, 0.695467, 0, -0.695467, -0.18635, -2.1, 1.2, 9 )
+
+[node name="fire_cone2" type="MeshInstance" parent="car_body/flames"]
+transform = Transform( 1, 0, 0, 0, 1, -2.98023e-08, 0, 2.98023e-08, 1, 0, 0, 0 )
+mesh = ExtResource( 8 )
+material/0 = SubResource( 5 )
+
+[node name="fire_cone3" type="MeshInstance" parent="car_body/flames"]
+transform = Transform( 1, 0, 0, 0, 1, -2.98023e-08, 0, 2.98023e-08, 1, 5.55556, 0, 0 )
+mesh = ExtResource( 8 )
+material/0 = SubResource( 5 )
+
+[node name="Viewport" type="Viewport" parent="car_body"]
+size = Vector2( 512, 32 )
+transparent_bg = true
+render_target_v_flip = true
+
+[node name="HealthBar" parent="car_body/Viewport" instance=ExtResource( 11 )]
+
+[node name="HealthBarSprite" type="Sprite3D" parent="car_body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0 )
+material_override = SubResource( 6 )
+pixel_size = 0.015
+texture = SubResource( 7 )
+
+[node name="DamageUp" parent="car_body" instance=ExtResource( 12 )]
+visible = false
+
+[node name="DamageTimer" type="Timer" parent="car_body/DamageUp"]
+wait_time = 10.0
+
 [node name="Rays" type="Spatial" parent="."]
 transform = Transform( 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 0, 0, 1, 0, 0, 0 )
+visible = false
 __meta__ = {
 "_editor_description_": "lol"
 }
@@ -476,3 +589,4 @@ transform = Transform( -0.426777, 0.885646, 0.183013, -0.592752, -0.426777, 0.68
 enabled = true
 cast_to = Vector3( 0, -10, 0 )
 [connection signal="timeout" from="car_body/Shield/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="car_body/DamageUp/DamageTimer" to="." method="_on_DamageTimer_timeout"]

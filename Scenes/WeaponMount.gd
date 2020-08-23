@@ -2,6 +2,7 @@ extends Spatial
 
 var weapon := preload("res://Scenes/Missile.tscn")
 
+
 func _ready():
 	pass
 
@@ -18,9 +19,10 @@ func _process(delta):
 			target = node
 	
 	if target != null:
-		$Missile.look_at(target.global_transform.origin, Vector3.UP)
-	else:
-		$Missile.transform = Transform.IDENTITY
+		pass
+		#$Missile.look_at(target.global_transform.origin, Vector3.UP)
+	#else:
+	$Missile.transform = Transform.IDENTITY
 	
 	if $RayCast.is_colliding():
 		$RayCast/CSGSphere.global_transform.origin = $RayCast.get_collision_point()
@@ -30,11 +32,12 @@ func _process(delta):
 		
 		
 
-func fire(node):
+func fire(node, damage = 1.0):
 	var m : RigidBody = weapon.instance()
 	m.get_node("Smoke").visible = true
 	var mg : Spatial = get_tree().get_nodes_in_group("missiles")[0]
 	m.transform = global_transform
 	m.add_collision_exception_with(node)
 	m.ignore = node
+	m.damage = damage
 	mg.add_child(m)

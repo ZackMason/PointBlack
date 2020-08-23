@@ -21,4 +21,7 @@ func _on_Area_body_entered(body):
 
 
 func _on_Area_body_exited(body):
-	cars_to_damage.remove(cars_to_damage.find(body))
+	var i := cars_to_damage.find(body)
+	if i == -1:
+		return
+	cars_to_damage.remove(i)

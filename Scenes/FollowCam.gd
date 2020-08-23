@@ -10,6 +10,7 @@ var last_lookat
 func _ready():
 	follow_this = get_node(follow_this_path)
 	last_lookat = follow_this.global_transform.origin
+	$RayCast.cast_to.z = -target_distance - 0.1
 
 
 func _physics_process(delta):
@@ -25,7 +26,7 @@ func _physics_process(delta):
 		target_pos = follow_this.global_transform.origin + delta_v
 	else:
 		target_pos.y = follow_this.global_transform.origin.y + target_height
-	
+		
 	global_transform.origin = global_transform.origin.linear_interpolate(target_pos + follow_this.get_node("car_body").global_transform.basis.z * target_distance + Vector3.UP * target_height, delta * 20.0)
 	
 	
