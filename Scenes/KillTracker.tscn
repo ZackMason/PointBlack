@@ -4,3 +4,4 @@
 
 [node name="KillTracker" type="Spatial"]
 script = ExtResource( 1 )
+boss_phase_kill_count = 15

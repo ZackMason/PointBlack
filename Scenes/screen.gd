@@ -33,7 +33,6 @@ func _ready():
 
 func change_face():
 	mat.set_shader_param("camera_texture", face_texture)
-	print("boss_phase")
 	get_tree().paused = true
 	get_node(boss_phase_camera).current = true
 	yield(get_tree().create_timer(.60), "timeout")

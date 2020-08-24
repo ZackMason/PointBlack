@@ -510,10 +510,10 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="KillCount"]
-margin_left = 837.312
-margin_top = 48.1378
-margin_right = 877.312
-margin_bottom = 88.1378
+margin_left = 1708.8
+margin_top = 79.8858
+margin_right = 1748.8
+margin_bottom = 119.886
 rect_scale = Vector2( 4, 1 )
 color = Color( 0.341176, 0.321569, 0.321569, 1 )
 __meta__ = {
@@ -533,10 +533,10 @@ __meta__ = {
 
 [node name="ColorRect3" type="ColorRect" parent="KillCount"]
 visible = false
-margin_left = 455.556
-margin_top = 248.465
-margin_right = 495.556
-margin_bottom = 288.465
+margin_left = 900.331
+margin_top = 489.473
+margin_right = 940.331
+margin_bottom = 529.473
 rect_scale = Vector2( 2.38689, 1 )
 color = Color( 0.341176, 0.321569, 0.321569, 1 )
 __meta__ = {
@@ -561,10 +561,10 @@ anchor_left = 0.986
 anchor_top = 0.066
 anchor_right = 1.0
 anchor_bottom = 0.156
-margin_left = -986.084
-margin_top = -0.129807
-margin_right = -821.084
-margin_bottom = 19.8702
+margin_left = -1873.44
+margin_top = -30.2904
+margin_right = -1708.44
+margin_bottom = -10.2904
 text = "Get 15 kills"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -576,10 +576,10 @@ anchor_left = 0.986
 anchor_top = 0.066
 anchor_right = 1.0
 anchor_bottom = 0.156
-margin_left = -986.084
-margin_top = -0.129807
-margin_right = -821.084
-margin_bottom = 19.8702
+margin_left = -1873.44
+margin_top = -30.2904
+margin_right = -1708.44
+margin_bottom = -10.2904
 text = "Shoot the Jumbotron"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -622,9 +622,7 @@ __meta__ = {
 [node name="TextureRect" type="TextureRect" parent="StartScreen/Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 896.0
-margin_bottom = 480.0
-rect_scale = Vector2( 0.534, 0.554 )
+rect_scale = Vector2( 0.998277, 1.00245 )
 texture = ExtResource( 31 )
 __meta__ = {
 "_edit_use_anchors_": false

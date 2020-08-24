@@ -10,7 +10,6 @@ func _ready():
 func _process(delta):
 	rotate_y(delta * spin_speed)
 	for car in cars_to_damage:
-		print (car.health)
 		car.damage(delta * 22.0)
 
 

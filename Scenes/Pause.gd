@@ -14,17 +14,13 @@ func pause():
 	visible = true
 
 func _input(event):
-	if get_node(start_screen) == null:
-		 return
-	if get_node(start_screen).on_start_menu:
+	if GameState.on_start_menu:
 		return
 	if event.is_action_released("pause"):
 		toggle_pause()
 
 func _notification(what):
-	if get_node(start_screen) == null:
-		 return
-	if get_node(start_screen).on_start_menu:
+	if GameState.on_start_menu:
 		return
 	if what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
 		pause()

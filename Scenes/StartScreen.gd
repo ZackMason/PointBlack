@@ -19,3 +19,4 @@ func _on_Button_button_up():
 	get_node(chase_camera).current = true
 	on_start_menu = false
 	get_node(kill_count_gui).visible = true
+	GameState.on_start_menu = false

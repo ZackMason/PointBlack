@@ -14,5 +14,4 @@ func cycle():
 	t.current = false
 	
 func _on_Timer_timeout():
-	print("cycle")
 	cycle()

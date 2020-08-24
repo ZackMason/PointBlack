@@ -18,4 +18,3 @@ func increase_killcount():
 	if player_kills == boss_phase_kill_count:
 		boss_phase = true
 		emit_signal("boss_phase")
-	print("Player Kills: %d" % player_kills)

@@ -28,7 +28,7 @@ func _ready():
 var osc := 0.0
 func _process(delta):
 	osc += delta
-	if health <= 0.0:
+	if health <= 0.0 or global_transform.origin.y < -20.0:
 		respawn()
 
 	fire_timer[0] -= delta
@@ -128,7 +128,6 @@ func damage(amount):
 func shield_on():
 	$car_body/Shield/Timer.start()
 	$car_body/Shield.visible = true
-	print("picked up shield")
 
 func damage_up():
 	$car_body/DamageUp/DamageTimer.start()

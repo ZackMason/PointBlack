@@ -69,7 +69,6 @@ func _process(delta):
 	
 	if global_transform.origin.y < kill_z or health <= 0:
 		respawn()
-		print("respawned")
 
 func _physics_process(dt):
 	var boost := 1.0

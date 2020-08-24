@@ -22,8 +22,6 @@ func _on_Area_body_entered(body):
 	if body == ignore:
 		return
 	if body.is_in_group("damagable"):
-		if ignore == KillTracker.player_node:
-			print("player hit target")
 		if body.damage(damage) and ignore == KillTracker.player_node:
 			KillTracker.increase_killcount()
 		var e = expo.instance()

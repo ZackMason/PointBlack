@@ -32,7 +32,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="BlackPoint"
+config/name="PointBlack"
 run/main_scene="res://Scenes/arena.tscn"
 config/icon="res://icon.png"
 
@@ -41,6 +41,12 @@ config/icon="res://icon.png"
 DrawLine3d="*res://Scripts/DrawLine3D.gd"
 Config="*res://Scenes/Config.tscn"
 KillTracker="*res://Scenes/KillTracker.tscn"
+GameState="*res://Scenes/GameState.tscn"
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
 
 [editor_plugins]
 
